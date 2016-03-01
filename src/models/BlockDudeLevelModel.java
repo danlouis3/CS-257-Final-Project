@@ -10,21 +10,21 @@ public class BlockDudeLevelModel {
 
 	private int levelHeight,levelWidth, startX,startY;
 	private BlockDudeTileObject[][] levelMatrix;
-	private int[][] testMatrix;
+	//private int[][] testMatrix;
 
-	public BlockDudeLevelModel(int width, int height, int[][] inputMatrix, int inputX, int inputY) {	
-		this.levelWidth = 24; //inputMatrix.length;
-		this.levelHeight = 12;  //inputMatrix[0].length;
+	public BlockDudeLevelModel(int[][] inputMatrix, int inputX, int inputY) {	
+		this.levelWidth = inputMatrix.length;
+		this.levelHeight = inputMatrix[0].length;
 		this.startX = inputX;
 		this.startY = inputY;
-		this.testMatrix = new int[24][12];
-		for (int i = 0; i < 24; i++){
+		//this.testMatrix = new int[24][12];
+		/*for (int i = 0; i < 24; i++){
 			for (int j = 0; j < 12; j++){
 				this.testMatrix[i][j] = (int)(Math.random()*5); 
 			}
-		}
+		}*/
 
-		setLevelMatrix(testMatrix);
+		setLevelMatrix(inputMatrix);
 	}
 
 	private void setLevelMatrix(int[][] testMatrix) { //passedMatrix
