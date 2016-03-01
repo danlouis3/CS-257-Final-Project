@@ -1,5 +1,11 @@
 package blockdude.models;
 
+import blockdude.components.BlockDudeTileObject;
+import blockdude.components.BlockDudeStaticTile;
+import blockdude.components.BlockDudeBoxTile;
+import blockdude.components.BlockDudeSpriteTile;
+import blockdude.components.BlockDudeDoorTile;
+
 public class BlockDudeLevelModel {
 
 	private int levelHeight,levelWidth, startX,startY;
@@ -7,38 +13,38 @@ public class BlockDudeLevelModel {
 	private int[][] testMatrix;
 
 	public BlockDudeLevelModel(int width, int height, int[][] inputMatrix, int inputX, int inputY) {	
-		this.levelWidth = inputMatrix.length;
-		this.levelHeight = inputMatrix[0].length;
+		this.levelWidth = 24; //inputMatrix.length;
+		this.levelHeight = 12;  //inputMatrix[0].length;
 		this.startX = inputX;
 		this.startY = inputY;
-		setLevelMatrix(inputMatrix);
-		this.testMatrix = new int[7][7];
-		for (int i = 0; i < 7; i++){
-			for (int j = 0; j <7; j++){
-				this.testMatrix[i][j] = Math.random()* 5; 
+		this.testMatrix = new int[24][12];
+		for (int i = 0; i < 24; i++){
+			for (int j = 0; j < 12; j++){
+				this.testMatrix[i][j] = (int)(Math.random()*5); 
 			}
 		}
+
+		setLevelMatrix(testMatrix);
 	}
 
 	private void setLevelMatrix(int[][] testMatrix) { //passedMatrix
 		this.levelMatrix = new BlockDudeTileObject[this.levelWidth][this.levelHeight];
-		for(int row = 0; row < passedMatrix.length; row++) {
-			this.levelMatrix.append(BlockDudeTileObject[]);
-			for(int column = 0; column < passedMatrix[row].length; column++) {
-				if (passedMatrix[row][column] == 0) {
-					this.levelMatrix[row][column] = None;
+		for(int row = 0; row < testMatrix.length; row++) {
+			for(int column = 0; column < testMatrix[row].length; column++) {
+				if (testMatrix[row][column] == 0) {
+					this.levelMatrix[row][column] = null;
 				}
-				else if (passedMatrix[row][column] == 1) {
-					this.levelMatrix[row][column] = new staticTile();
+				else if (testMatrix[row][column] == 1) {
+					this.levelMatrix[row][column] = new BlockDudeStaticTile();
 				}
-				else if (passedMatrix[row][column] == 2) {
-					this.levelMatrix[row][column] = new boxTile();
+				else if (testMatrix[row][column] == 2) {
+					this.levelMatrix[row][column] = new BlockDudeBoxTile();
 				}
-				else if (passedMatrix[row][column] == 3) {
-					this.levelMatrix[row][column] = new doorTile();
+				else if (testMatrix[row][column] == 3) {
+					this.levelMatrix[row][column] = new BlockDudeDoorTile();
 				}
-				else if (passedMatrix[row][column] == 4) {
-					this.levelMatrix[row][column] = new spriteTile();
+				else if (testMatrix[row][column] == 4) {
+					this.levelMatrix[row][column] = new BlockDudeSpriteTile();
 				}
 			}
 		}

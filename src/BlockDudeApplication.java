@@ -18,7 +18,7 @@ public class BlockDudeApplication extends Application {
 		this.primaryStage = primaryStage;
 		this.primaryStage.setTitle("Block Dude");
 
-		BlockDudeLevelModel model = new BlockDudeLevelModel(40, 12);
+		BlockDudeLevelModel model = new BlockDudeLevelModel(40, 12, new int[0][0], 0, 0);
 		BlockDudeLevelView view = new BlockDudeLevelView(model);
 
 		primaryStage.setScene(new Scene(view));

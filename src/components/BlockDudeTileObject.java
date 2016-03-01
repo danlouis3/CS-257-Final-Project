@@ -1,11 +1,13 @@
 package blockdude.components;
+
+import javafx.scene.canvas.GraphicsContext;
+
 public abstract class BlockDudeTileObject {
-	public static final int TILE_SIZE = 10;
+	public static final int TILE_SIZE = 50;
 	//public String getType(); no longer necessary?
-	public void render(GraphicsContext gc, int xcoord, int ycoord);
+	public abstract void render(GraphicsContext gc, int xcoord, int ycoord);
+
 	// returns x and y coordinates of upper left (or whatever) of tile 
-	public int[] getLocation();
-	public setLocation(int xcoord, int ycoord);
-
-
+	//public int[] getLocation();
+	//public setLocation(int xcoord, int ycoord);
 }

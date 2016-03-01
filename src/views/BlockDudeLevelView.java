@@ -9,6 +9,7 @@ import javafx.geometry.Pos;
 import javafx.geometry.Insets;
 
 import blockdude.models.BlockDudeLevelModel;
+import blockdude.components.BlockDudeTileObject;
 
 public class BlockDudeLevelView extends StackPane {
 
@@ -16,22 +17,18 @@ public class BlockDudeLevelView extends StackPane {
 	private ScrollPane levelScroll;
 	private Canvas levelCanvas;
 	private Button menuButton;
+	private int tileSize = BlockDudeTileObject.TILE_SIZE;
 
 	public BlockDudeLevelView(BlockDudeLevelModel model) {
 		this.model = model;
 		this.levelScroll = new ScrollPane();
 
-		int tileSize = 50;
+		this.menuButton = new Button("menu");
 
-
-		this.levelCanvas = new Canvas(canvasWidth, canvasHeight);
-
-
-		 this.menuButton = new Button("menu");
-
+		this.levelCanvas = renderLevel();
 		this.levelScroll.setContent(this.levelCanvas);
-		this.levelScroll.setPrefViewportWidth(tileSize*12);
-		this.levelScroll.setPrefViewportHeight(tileSize*12);
+		this.levelScroll.setPrefViewportWidth(this.tileSize*12);
+		this.levelScroll.setPrefViewportHeight(this.tileSize*12);
 
 		this.getChildren().addAll(this.levelScroll, menuButton);
 
@@ -40,19 +37,26 @@ public class BlockDudeLevelView extends StackPane {
 	}
 
 
-	public void renderLevel() {
-		int canvasWidth  = this.model.getLevelWidth()*tileSize;
-		int canvasHeight = this.model.getLevelHeight()*tileSize;
+	public Canvas renderLevel() {
+		int canvasWidth  = this.model.getLevelWidth()*this.tileSize;
+		int canvasHeight = this.model.getLevelHeight()*this.tileSize;
+
+		System.out.println(canvasWidth+", "+canvasHeight);
 
 		Canvas lCanvas = new Canvas(canvasWidth, canvasHeight);
 
-		GraphicsContext levelGC = this.levelCanvas.getGraphicsContext2D();
+		GraphicsContext levelGC = lCanvas.getGraphicsContext2D();
 
 		for(int i = 0; i < this.model.getLevelWidth(); i++) {
 			for(int j = 0; j < this.model.getLevelHeight(); j++) {
-				model.getTileObject(i,j).render(i*tileSize, j*tileSize, levelGC);
+				if(model.getTileObject(i,j) != null) {
+					model.getTileObject(i,j).render(levelGC, i*this.tileSize, j*this.tileSize);
+					System.out.println("HEY BABE");
+				}
 			}
 		}
+
+		return lCanvas;
 	}
 
 }
