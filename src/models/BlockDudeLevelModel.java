@@ -8,7 +8,7 @@ public class BlockDudeLevelModel {
 		this.levelWidth = width;
 		this.levelHeight = height;
 	}
-
+	
 
 	public int getLevelHeight() {
 		return this.levelHeight;
