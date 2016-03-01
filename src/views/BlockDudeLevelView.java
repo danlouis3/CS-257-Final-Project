@@ -22,21 +22,10 @@ public class BlockDudeLevelView extends StackPane {
 		this.levelScroll = new ScrollPane();
 
 		int tileSize = 50;
-		int canvasWidth  = this.model.getLevelWidth()*tileSize;
-		int canvasHeight = this.model.getLevelHeight()*tileSize;
-		
+
+
 		this.levelCanvas = new Canvas(canvasWidth, canvasHeight);
 
-		GraphicsContext levelGC = this.levelCanvas.getGraphicsContext2D();
-
-		for(int i = 0; i < this.model.getLevelWidth(); i++) {
-			for(int j = 0; j < this.model.getLevelHeight(); j++) {
-				//this.model.getCellType(i,j);
-				
-				if(Math.random()<.5 && j>5)
-					levelGC.fillRect(i*tileSize, j*tileSize, tileSize, tileSize);
-			}
-		}
 
 		 this.menuButton = new Button("menu");
 
@@ -48,7 +37,22 @@ public class BlockDudeLevelView extends StackPane {
 
 		this.setAlignment(this.menuButton, Pos.TOP_RIGHT);
 		this.setMargin(this.menuButton, new Insets(10, 10, 0, 0));
+	}
 
+
+	public void renderLevel() {
+		int canvasWidth  = this.model.getLevelWidth()*tileSize;
+		int canvasHeight = this.model.getLevelHeight()*tileSize;
+
+		Canvas lCanvas = new Canvas(canvasWidth, canvasHeight);
+
+		GraphicsContext levelGC = this.levelCanvas.getGraphicsContext2D();
+
+		for(int i = 0; i < this.model.getLevelWidth(); i++) {
+			for(int j = 0; j < this.model.getLevelHeight(); j++) {
+				model.getTileObject(i,j).render(i*tileSize, j*tileSize, levelGC);
+			}
+		}
 	}
 
 }
