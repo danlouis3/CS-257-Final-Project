@@ -24,7 +24,7 @@ public class BlockDudeLevelView extends StackPane {
 		int tileSize = 50;
 		int canvasWidth  = this.model.getLevelWidth()*tileSize;
 		int canvasHeight = this.model.getLevelHeight()*tileSize;
-
+		
 		this.levelCanvas = new Canvas(canvasWidth, canvasHeight);
 
 		GraphicsContext levelGC = this.levelCanvas.getGraphicsContext2D();
