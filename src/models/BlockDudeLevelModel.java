@@ -4,20 +4,24 @@ public class BlockDudeLevelModel {
 
 	private int levelHeight,levelWidth, startX,startY;
 	private BlockDudeTileObject[][] levelMatrix;
+	private int[][] testMatrix;
 
 	public BlockDudeLevelModel(int width, int height, int[][] inputMatrix, int inputX, int inputY) {	
-		this.levelWidth = width;
-		this.levelHeight = height;
+		this.levelWidth = inputMatrix.length;
+		this.levelHeight = inputMatrix[0].length;
 		this.startX = inputX;
 		this.startY = inputY;
 		setLevelMatrix(inputMatrix);
-
+		this.testMatrix = new int[7][7];
+		for (int i = 0; i < 7; i++){
+			for (int j = 0; j <7; j++){
+				this.testMatrix[i][j] = Math.random()* 5; 
+			}
+		}
 	}
 
-	private void setLevelMatrix(int[][] passedMatrix) {
-		private int width = passedMatrix.length;
-		private int height = passedMatrix[0].length;
-		this.levelMatrix = new BlockDudeTileObject[width][height];
+	private void setLevelMatrix(int[][] testMatrix) { //passedMatrix
+		this.levelMatrix = new BlockDudeTileObject[this.levelWidth][this.levelHeight];
 		for(int row = 0; row < passedMatrix.length; row++) {
 			this.levelMatrix.append(BlockDudeTileObject[]);
 			for(int column = 0; column < passedMatrix[row].length; column++) {
@@ -41,12 +45,15 @@ public class BlockDudeLevelModel {
 	}
 	
 
-
 	public int getLevelHeight() {
 		return this.levelHeight;
 	}
 
 	public int getLevelWidth() {
 		return this.levelWidth;
+	}
+
+	public BlockDudeTileObject getTileObject(int xcoord, int ycoord){
+		return this.levelMatrix[xcoord][ycoord];
 	}
 }
