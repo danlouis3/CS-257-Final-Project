@@ -19,7 +19,7 @@ public class BlockDudeApplication extends Application {
 		this.primaryStage = primaryStage;
 		this.primaryStage.setTitle("Block Dude");
         
-        levelOneMatrix = new int[18][8];
+        levelOneMatrix = new int[8][20];
         
         levelOneMatrix[0][0] = 0;
         levelOneMatrix[0][1] = 0;

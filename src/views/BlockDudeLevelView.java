@@ -47,11 +47,12 @@ public class BlockDudeLevelView extends StackPane {
 
 		GraphicsContext levelGC = lCanvas.getGraphicsContext2D();
 
-		for(int i = 0; i < this.model.getLevelWidth(); i++) {
-			for(int j = 0; j < this.model.getLevelHeight(); j++) {
+		for(int i = 0; i < this.model.getLevelHeight(); i++) {
+			for(int j = 0; j < this.model.getLevelWidth(); j++) {
 				if(model.getTileObject(i,j) != null) {
-					model.getTileObject(i,j).render(levelGC, i*this.tileSize, j*this.tileSize);
-					System.out.println("HEY BABE");
+					int x = this.model.getLevelWidth() - j - 1;
+					int y = this.model.getLevelHeight() - i - 1;
+					model.getTileObject(i,j).render(levelGC, x*this.tileSize, y*this.tileSize);
 				}
 			}
 		}
