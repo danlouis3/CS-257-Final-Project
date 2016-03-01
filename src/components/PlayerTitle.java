@@ -15,7 +15,7 @@ public class PlayerTile extends Tile{
 	//make a box in the given space. have it look like a box
 		int tileSize = Tile.TILE_SIZE;
 		//change later to look like movable block
-		gc.setFill(Color.PINK);
+		gc.setFill(Color.RED);
 		gc.fillRect(xcoord,ycoord, tileSize, tileSize);
 	}
 }

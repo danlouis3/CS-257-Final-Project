@@ -16,7 +16,7 @@ public class StaticTile extends Tile {
 	//make a box in the given space. have it look like a box
 		int tileSize = Tile.TILE_SIZE;
 		//change later to look like movable block
-		gc.setFill(Color.GREEN);
+		gc.setFill(Color.BLACK);
 			gc.fillRect(xcoord,ycoord, tileSize, tileSize);
 	}
 }
