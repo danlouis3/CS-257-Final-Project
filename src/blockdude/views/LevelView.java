@@ -11,7 +11,7 @@ import javafx.geometry.Insets;
 import blockdude.models.LevelModel;
 import blockdude.components.Tile;
 
-public class LevelView extends StackPane {
+public class LevelView extends ScrollPane {
 
 	private LevelModel model;
 	private ScrollPane levelScroll;
@@ -21,19 +21,11 @@ public class LevelView extends StackPane {
 
 	public LevelView(LevelModel model) {
 		this.model = model;
-		this.levelScroll = new ScrollPane();
-
-		this.menuButton = new Button("menu");
 
 		this.levelCanvas = renderLevel();
-		this.levelScroll.setContent(this.levelCanvas);
-		this.levelScroll.setPrefViewportWidth(this.tileSize*12);
-		this.levelScroll.setPrefViewportHeight(this.tileSize*8);
-
-		this.getChildren().addAll(this.levelScroll, menuButton);
-
-		this.setAlignment(this.menuButton, Pos.TOP_RIGHT);
-		this.setMargin(this.menuButton, new Insets(10, 10, 0, 0));
+		this.setContent(this.levelCanvas);
+		this.setPrefViewportWidth(this.tileSize*12);
+		this.setPrefViewportHeight(this.tileSize*8);
 	}
 
 

@@ -1,4 +1,4 @@
-package blockdude.components;
+	package blockdude.components;
 
 import javafx.scene.control.ScrollPane;
 import javafx.scene.canvas.Canvas;
