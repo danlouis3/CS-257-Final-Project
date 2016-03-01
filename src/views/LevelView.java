@@ -28,7 +28,7 @@ public class LevelView extends StackPane {
 		this.levelCanvas = renderLevel();
 		this.levelScroll.setContent(this.levelCanvas);
 		this.levelScroll.setPrefViewportWidth(this.tileSize*12);
-		this.levelScroll.setPrefViewportHeight(this.tileSize*12);
+		this.levelScroll.setPrefViewportHeight(this.tileSize*8);
 
 		this.getChildren().addAll(this.levelScroll, menuButton);
 
