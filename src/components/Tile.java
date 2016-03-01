@@ -2,7 +2,7 @@ package blockdude.components;
 
 import javafx.scene.canvas.GraphicsContext;
 
-public abstract class BlockDudeTileObject {
+public abstract class Tile {
 	public static final int TILE_SIZE = 50;
 	//public String getType(); no longer necessary?
 	public abstract void render(GraphicsContext gc, int xcoord, int ycoord);

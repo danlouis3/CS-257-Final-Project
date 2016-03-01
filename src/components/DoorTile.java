@@ -6,16 +6,16 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 
-
-import blockdude.components.BlockDudeTileObject;
+import blockdude.components.Tile;
 //import what you need to render
-public class BlockDudeSpriteTile extends BlockDudeTileObject{
+public class DoorTile extends Tile{
 	//public String getType(); old
 	public void render(GraphicsContext gc, int xcoord, int ycoord) {
 	//make a box in the given space. have it look like a box
-		int tileSize = BlockDudeTileObject.TILE_SIZE;
+		int tileSize = Tile.TILE_SIZE;
 		//change later to look like movable block
-		gc.setFill(Color.PINK);
+		gc.setFill(Color.DARKGREY);
 		gc.fillRect(xcoord,ycoord, tileSize, tileSize);
 	}
+
 }

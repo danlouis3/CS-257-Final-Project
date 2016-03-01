@@ -1,18 +1,18 @@
 package blockdude.models;
 
-import blockdude.components.BlockDudeTileObject;
-import blockdude.components.BlockDudeStaticTile;
-import blockdude.components.BlockDudeBoxTile;
-import blockdude.components.BlockDudeSpriteTile;
-import blockdude.components.BlockDudeDoorTile;
+import blockdude.components.Tile;
+import blockdude.components.StaticTile;
+import blockdude.components.BlockTile;
+import blockdude.components.PlayerTile;
+import blockdude.components.DoorTile;
 
-public class BlockDudeLevelModel {
+public class LevelModel {
 
 	private int levelHeight,levelWidth, startX,startY;
-	private BlockDudeTileObject[][] levelMatrix;
+	private Tile[][] levelMatrix;
 	//private int[][] testMatrix;
 
-	public BlockDudeLevelModel(int[][] inputMatrix, int inputX, int inputY) {	
+	public LevelModel(int[][] inputMatrix, int inputX, int inputY) {	
 		this.levelWidth = inputMatrix[0].length;
 		this.levelHeight = inputMatrix.length;
 		this.startX = inputX;
@@ -28,23 +28,23 @@ public class BlockDudeLevelModel {
 	}
 
 	private void setLevelMatrix(int[][] testMatrix) { //passedMatrix
-		this.levelMatrix = new BlockDudeTileObject[this.levelHeight][this.levelWidth];
+		this.levelMatrix = new Tile[this.levelHeight][this.levelWidth];
 		for(int row = 0; row < this.levelHeight; row++) {
 			for(int col = 0; col < this.levelWidth; col++) {
 				if (testMatrix[row][col] == 0) {
 					this.levelMatrix[row][col] = null;
 				}
 				else if (testMatrix[row][col] == 1) {
-					this.levelMatrix[row][col] = new BlockDudeStaticTile();
+					this.levelMatrix[row][col] = new StaticTile();
 				}
 				else if (testMatrix[row][col] == 2) {
-					this.levelMatrix[row][col] = new BlockDudeBoxTile();
+					this.levelMatrix[row][col] = new BlockTile();
 				}
 				else if (testMatrix[row][col] == 3) {
-					this.levelMatrix[row][col] = new BlockDudeDoorTile();
+					this.levelMatrix[row][col] = new DoorTile();
 				}
 				else if (testMatrix[row][col] == 4) {
-					this.levelMatrix[row][col] = new BlockDudeSpriteTile();
+					this.levelMatrix[row][col] = new PlayerTile();
 				}
 			}
 		}
@@ -59,7 +59,7 @@ public class BlockDudeLevelModel {
 		return this.levelWidth;
 	}
 
-	public BlockDudeTileObject getTileObject(int xcoord, int ycoord){
+	public Tile getTileObject(int xcoord, int ycoord){
 		return this.levelMatrix[xcoord][ycoord];
 	}
 }

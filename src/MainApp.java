@@ -1,14 +1,14 @@
 package blockdude;
 
-import blockdude.models.BlockDudeLevelModel;
-import blockdude.views.BlockDudeLevelView;
+import blockdude.models.LevelModel;
+import blockdude.views.LevelView;
 
 import javafx.application.Application;
 import javafx.scene.control.ScrollPane;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 
-public class BlockDudeApplication extends Application {
+public class MainApp extends Application {
 
 	private Stage primaryStage;
 	private ScrollPane levelLayout;
@@ -182,8 +182,8 @@ public class BlockDudeApplication extends Application {
         levelOneMatrix[7][18] = 0;
         levelOneMatrix[7][19] = 1;
 
-		BlockDudeLevelModel model = new BlockDudeLevelModel(levelOneMatrix, 0, 0);
-		BlockDudeLevelView view = new BlockDudeLevelView(model);
+		LevelModel model = new LevelModel(levelOneMatrix, 0, 0);
+		LevelView view = new LevelView(model);
 
 		primaryStage.setScene(new Scene(view));
 		primaryStage.show();

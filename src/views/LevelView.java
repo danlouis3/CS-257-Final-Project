@@ -8,18 +8,18 @@ import javafx.scene.control.Button;
 import javafx.geometry.Pos;
 import javafx.geometry.Insets;
 
-import blockdude.models.BlockDudeLevelModel;
-import blockdude.components.BlockDudeTileObject;
+import blockdude.models.LevelModel;
+import blockdude.components.Tile;
 
-public class BlockDudeLevelView extends StackPane {
+public class LevelView extends StackPane {
 
-	private BlockDudeLevelModel model;
+	private LevelModel model;
 	private ScrollPane levelScroll;
 	private Canvas levelCanvas;
 	private Button menuButton;
-	private int tileSize = BlockDudeTileObject.TILE_SIZE;
+	private int tileSize = Tile.TILE_SIZE;
 
-	public BlockDudeLevelView(BlockDudeLevelModel model) {
+	public LevelView(LevelModel model) {
 		this.model = model;
 		this.levelScroll = new ScrollPane();
 
