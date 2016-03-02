@@ -6,10 +6,15 @@ import blockdude.components.BlockTile;
 import blockdude.components.PlayerTile;
 import blockdude.components.DoorTile;
 
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+
 public class LevelModel {
 
+	private BooleanProperty menuVisible;
 	private int levelHeight,levelWidth, startX,startY;
 	private Tile[][] levelMatrix;
+	private String name;
 	//private int[][] testMatrix;
 
 	public LevelModel(int[][] inputMatrix, int inputX, int inputY) {	
@@ -17,6 +22,7 @@ public class LevelModel {
 		this.levelHeight = inputMatrix.length;
 		this.startX = inputX;
 		this.startY = inputY;
+		this.name = "Temporary";
 		//this.testMatrix = new int[24][12];
 		/*for (int i = 0; i < 24; i++){
 			for (int j = 0; j < 12; j++){
@@ -24,6 +30,7 @@ public class LevelModel {
 			}
 		}*/
 
+		this.menuVisible = new SimpleBooleanProperty(false);
 		setLevelMatrix(inputMatrix);
 	}
 
@@ -50,6 +57,17 @@ public class LevelModel {
 		}
 	}
 	
+	public boolean isMenuVisible() {
+		return this.menuVisible.getValue();
+	}
+
+	public void setMenuVisible(boolean val) {
+		this.menuVisible.set(val);
+	}
+
+	public BooleanProperty menuVisibleProperty() {
+		return this.menuVisible;
+	}
 
 	public int getLevelHeight() {
 		return this.levelHeight;
@@ -61,5 +79,9 @@ public class LevelModel {
 
 	public Tile getTileObject(int xcoord, int ycoord){
 		return this.levelMatrix[xcoord][ycoord];
+	}
+
+	public String getName() {
+		return this.name;
 	}
 }

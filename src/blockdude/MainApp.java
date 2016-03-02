@@ -4,6 +4,7 @@ import blockdude.models.LevelModel;
 import blockdude.views.LevelView;
 import blockdude.views.MenuView;
 import blockdude.models.GameModel;
+import blockdude.controllers.LevelController;
 
 import javafx.application.Application;
 import javafx.scene.layout.StackPane;
@@ -19,7 +20,6 @@ public class MainApp extends Application {
 	public void start(Stage primaryStage) {
 		this.primaryStage = primaryStage;
 		this.primaryStage.setTitle("Block Dude");
-        StackPane viewHolder = new StackPane();
         
         int[][] levelOneMatrix = {  {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
                                     {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
@@ -33,10 +33,10 @@ public class MainApp extends Application {
         GameModel gameModel = new GameModel();
 		LevelModel levelModel = new LevelModel(levelOneMatrix, 0, 0);
 		LevelView levelView = new LevelView(levelModel);
-        MenuView menuView = new MenuView(gameModel);
+        LevelController levelController = new LevelController(levelModel, levelView);
 
-        viewHolder.getChildren().addAll(menuView, levelView);
-		primaryStage.setScene(new Scene(viewHolder));
+        System.out.println(levelView.getHeight());
+		primaryStage.setScene(new Scene(levelView));
 		primaryStage.show();
 	}
 
