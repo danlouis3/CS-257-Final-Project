@@ -16,7 +16,7 @@ public class LevelController {
 
 	public LevelController(LevelModel lm, LevelView lv) {
 		this.levelModel = lm;
-		lv = lv;
+		this.levelView  = lv;
 
 		lv.getMenuButton().setOnAction( new EventHandler<ActionEvent>() {
 			@Override public void handle(ActionEvent e) {
@@ -37,6 +37,5 @@ public class LevelController {
 
 			e.consume();
 		});
-		
 	}
 }

@@ -13,6 +13,7 @@ import javafx.scene.Scene;
 
 public class MainApp extends Application {
 
+    private String levelsPath = "./resources/level/";
 	private Stage primaryStage;
     public int levelOneMatrix[][];
 
@@ -20,8 +21,9 @@ public class MainApp extends Application {
 	public void start(Stage primaryStage) {
 		this.primaryStage = primaryStage;
 		this.primaryStage.setTitle("Block Dude");
-        
-        int[][] levelOneMatrix = {  {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+
+        //LevelModelFactor modeFactory = new LevelModelFactor(this.levelsPath);
+        int[][] levelOneMatrix =  { {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
                                     {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
                                     {1,3,0,0,1,0,0,0,1,0,2,0,1,0,2,0,4,0,0,1},
                                     {1,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1},
@@ -29,7 +31,7 @@ public class MainApp extends Application {
                                     {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
                                     {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
                                     {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1}};
-
+        
         GameModel gameModel = new GameModel();
 		LevelModel levelModel = new LevelModel(levelOneMatrix, 0, 0);
 		LevelView levelView = new LevelView(levelModel);
