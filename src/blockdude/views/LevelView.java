@@ -12,7 +12,7 @@ import javafx.event.EventHandler;
 
 import blockdude.models.LevelModel;
 import blockdude.components.Tile;
-import blockdude.views.InGamePopup;
+//import blockdude.views.InGamePopup;
 
 public class LevelView extends StackPane {
 
