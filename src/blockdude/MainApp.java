@@ -2,7 +2,6 @@ package blockdude;
 
 import blockdude.models.LevelModel;
 import blockdude.views.LevelView;
-import blockdude.views.MenuView;
 import blockdude.models.GameModel;
 import blockdude.controllers.LevelController;
 
