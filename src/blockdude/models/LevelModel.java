@@ -6,82 +6,88 @@ import blockdude.components.BlockTile;
 import blockdude.components.PlayerTile;
 import blockdude.components.DoorTile;
 
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleListProperty;
+import javafx.collections.ObservableList;
+import javafx.collections.ListChangeListener;
+import javafx.collections.FXCollections;
 
-public class LevelModel {
+import java.util.LinkedList;
 
-	private BooleanProperty menuVisible;
-	private int levelHeight,levelWidth, startX,startY;
-	private Tile[][] levelMatrix;
+public class LevelModel extends SimpleObjectProperty {
+
+	private int height, width;
+	private ObservableList<Tile> tileList;
 	private String name;
+	private int playerIndex;
 	//private int[][] testMatrix;
 
-	public LevelModel(int[][] inputMatrix, int inputX, int inputY) {	
-		this.levelWidth = inputMatrix[0].length;
-		this.levelHeight = inputMatrix.length;
-		this.startX = inputX;
-		this.startY = inputY;
-		this.name = "Temporary";
-		//this.testMatrix = new int[24][12];
-		/*for (int i = 0; i < 24; i++){
-			for (int j = 0; j < 12; j++){
-				this.testMatrix[i][j] = (int)(Math.random()*5); 
+	public LevelModel(Tile[][] inputMatrix, String name) {	
+		this.width  = inputMatrix[0].length;
+		this.height = inputMatrix.length;
+		this.name = name;
+
+		LinkedList<Tile> temp = new LinkedList<Tile>();
+		for(int i = 0; i < this.height; i++)
+			for(int j = 0; j < this.width; j++) {
+				if(inputMatrix[i][j] instanceof PlayerTile) 
+					playerIndex = i*this.width + j;
+				
+				temp.addLast(inputMatrix[i][j]);
 			}
-		}*/
 
-		this.menuVisible = new SimpleBooleanProperty(false);
-		setLevelMatrix(inputMatrix);
+		this.tileList = FXCollections.observableArrayList(temp);
 	}
 
-	private void setLevelMatrix(int[][] testMatrix) { //passedMatrix
-		this.levelMatrix = new Tile[this.levelHeight][this.levelWidth];
-		for(int row = 0; row < this.levelHeight; row++) {
-			for(int col = 0; col < this.levelWidth; col++) {
-				if (testMatrix[row][col] == 0) {
-					this.levelMatrix[row][col] = null;
-				}
-				else if (testMatrix[row][col] == 1) {
-					this.levelMatrix[row][col] = new StaticTile();
-				}
-				else if (testMatrix[row][col] == 2) {
-					this.levelMatrix[row][col] = new BlockTile();
-				}
-				else if (testMatrix[row][col] == 3) {
-					this.levelMatrix[row][col] = new DoorTile();
-				}
-				else if (testMatrix[row][col] == 4) {
-					this.levelMatrix[row][col] = new PlayerTile();
-				}
-			}
-		}
-	}
-	
-	public boolean isMenuVisible() {
-		return this.menuVisible.getValue();
+	public int getHeight() {
+		return this.height;
 	}
 
-	public void setMenuVisible(boolean val) {
-		this.menuVisible.set(val);
+	public int getWidth() {
+		return this.width;
 	}
 
-	public BooleanProperty menuVisibleProperty() {
-		return this.menuVisible;
-	}
-
-	public int getLevelHeight() {
-		return this.levelHeight;
-	}
-
-	public int getLevelWidth() {
-		return this.levelWidth;
-	}
-
-	public Tile getTileObject(int xcoord, int ycoord){
-		return this.levelMatrix[xcoord][ycoord];
+	public Tile getTile(int i, int j){
+		return tileList.get(i*this.width+j);
 	}
 
 	public String getName() {
 		return this.name;
+	}
+
+	public void addTileChangeListener(ListChangeListener<Tile> listener) {
+		this.tileList.addListener(listener);
+	}
+
+	public void moveLeft() {
+		int k = this.playerIndex;
+		if(leftIsValid(k)) {
+			this.tileList.set(k - 1, this.tileList.get(k));
+			this.tileList.set(k, null);
+			this.playerIndex -= 1;
+		}
+	}
+
+	public void moveRight() {
+		int k = this.playerIndex;
+		if(rightIsValid(k)) {
+			this.tileList.set(k + 1, this.tileList.get(k));
+			this.tileList.set(k, null);
+			this.playerIndex += 1;
+		}
+	}
+
+	private boolean leftIsValid(int k) {
+		if(k%this.width == 0)
+			return false;
+
+		return this.tileList.get(k-1) == null;
+	}
+
+	private boolean rightIsValid(int k) {
+		if((k+1)%this.width == 0)
+			return false;
+
+		return this.tileList.get(k+1) == null;
 	}
 }

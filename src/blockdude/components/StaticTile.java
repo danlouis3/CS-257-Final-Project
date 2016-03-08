@@ -1,31 +1,18 @@
 package blockdude.components;
 
-import javafx.scene.control.ScrollPane;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.Node;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
-
-
 import blockdude.components.Tile;
+
 //import what you need to render
 public class StaticTile extends Tile {
-	private int xmatrix;
-	private int ymatrix;
-	//public String getType(); old
-	public void render(GraphicsContext gc, int xcoord, int ycoord) {
-	//make a box in the given space. have it look like a box
-		int tileSize = Tile.TILE_SIZE;
-		//change later to look like movable block
-		gc.setFill(Color.BLACK);
-			gc.fillRect(xcoord,ycoord, tileSize, tileSize);
-	}
-	public void setMatrix(int x, int y){
-		this.xmatrix = x;
-		this.ymatrix = y;
-	}
-	public int[] getMatrix(){
-		int[] returnarray = {this.xmatrix,this.ymatrix};
-		return returnarray;
+
+	public Node render(int x, int y) {
+		int size = Tile.TILE_SIZE;
+		Rectangle rect = new Rectangle(x*size, y*size, size, size);
+		rect.setFill(Color.BLACK);
+		return rect;
 	}
 }

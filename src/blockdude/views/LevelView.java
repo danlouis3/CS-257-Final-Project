@@ -1,85 +1,92 @@
 package blockdude.views;
 
+import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.layout.StackPane;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.input.ScrollEvent;
+
 import javafx.geometry.Pos;
 import javafx.geometry.Insets;
+
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 
+import java.util.List;
+import java.util.LinkedList;
+
 import blockdude.models.LevelModel;
 import blockdude.components.Tile;
-import blockdude.views.InGameMenu;
+import blockdude.views.GameMenu;
 
 public class LevelView extends StackPane {
 
-	private LevelModel model;
-	private InGameMenu menu;
+	private LevelModel levelModel;
 	private ScrollPane levelScroll;
-	private Canvas canvas;
-	private Button menuButton;
-	private int tileSize = Tile.TILE_SIZE;
+	private Pane canvas;
 
-	public LevelView(LevelModel model) {
-		this.model = model;
-
-		int canvasHeight = this.model.getLevelHeight()*this.tileSize;
-		int canvasWidth = this.model.getLevelWidth()*this.tileSize;
-		this.canvas = new Canvas(canvasWidth, canvasHeight);
-		renderCanvas();
+	public LevelView(LevelModel lm) {
+		this.levelModel = lm;
+		this.canvas = new Pane();
 
 		this.levelScroll = new ScrollPane();
-		this.levelScroll.setPrefViewportWidth(this.tileSize*12);
-		this.levelScroll.setPrefViewportHeight(this.tileSize*8);
+		this.levelScroll.setPrefViewportWidth(Tile.TILE_SIZE*12);
+		this.levelScroll.setPrefViewportHeight(Tile.TILE_SIZE*8);
 		this.levelScroll.setContent(this.canvas);
 		this.levelScroll.setPannable(false);
 		this.levelScroll.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+		this.levelScroll.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+		this.getChildren().addAll(this.levelScroll);
 
-		this.menu = new InGameMenu(model.getName());
-		this.menu.managedProperty().bind(model.menuVisibleProperty());
-		this.menu.visibleProperty().bind(model.menuVisibleProperty());
+		render();
 
-		this.menuButton = new Button("Menu");
+		this.levelScroll.addEventFilter(MouseEvent.MOUSE_PRESSED, (e) -> {
+			e.consume();
+		});
 
-		this.getChildren().addAll(this.levelScroll, this.menuButton, this.menu);
-		StackPane.setAlignment(this.menuButton, Pos.TOP_RIGHT);
-		StackPane.setMargin(this.menuButton, new Insets(10, 10, 0, 0));
+		this.levelScroll.addEventFilter(ScrollEvent.ANY, (e) -> {
+			e.consume();
+		});
 
-		StackPane.setAlignment(this.menu, Pos.CENTER);
-
+		lm.addListener( (e) -> render() );
+		lm.addTileChangeListener( (e) -> render() );
 	}
 
 
-	public void renderCanvas() {
-		System.out.println(canvas.getHeight());
-		GraphicsContext levelGC = this.canvas.getGraphicsContext2D();
+	public void render() {
+		int canvasHeight = this.levelModel.getHeight()*Tile.TILE_SIZE;
+		int canvasWidth = this.levelModel.getWidth()*Tile.TILE_SIZE;
+		this.canvas.setPrefSize(canvasWidth, canvasHeight);
 
-		for(int i = 0; i < this.model.getLevelHeight(); i++) {
-			for(int j = 0; j < this.model.getLevelWidth(); j++) {
-				if(model.getTileObject(i,j) != null) {
-					int x =  this.model.getLevelWidth() - j - 1;
-					int y = this.model.getLevelHeight() - i - 1;
+		List<Node> tiles = new LinkedList<Node>();
 
-					model.getTileObject(i,j).render(levelGC, x*this.tileSize, y*this.tileSize);
+		for(int i = 0; i < this.levelModel.getHeight(); i++) {
+			for(int j = 0; j < this.levelModel.getWidth(); j++) {
+				if(this.levelModel.getTile(i,j) != null) {
+					int x = j;
+					int y = i;
+
+					tiles.add(this.levelModel.getTile(i,j).render(x,y));
 				}
 			}
 		}
-		System.out.println(canvas.getHeight());
+
+		this.canvas.getChildren().setAll(tiles);
 	}
 
-	public Button getMenuButton() {
-		return this.menuButton;
-	}
-
-	public Canvas getCanvas() {
+	public Pane getCanvas() {
 		return this.canvas;
 	}
 
 	public ScrollPane getScrollPane() {
 		return this.levelScroll;
+	}
+
+	public void setKeyAction(EventHandler<KeyEvent> handler) {
+		this.setOnKeyPressed(handler);
 	}
 
 }
