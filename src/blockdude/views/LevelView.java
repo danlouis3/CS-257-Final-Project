@@ -59,8 +59,9 @@ public class LevelView extends StackPane {
 
 		lm.addTileChangeListener( (e) -> {
 			render();
-			if(true == levelOver.get())
-				System.out.println("WON");
+			if(this.levelOver.get() == true) {
+				((Pane) this.getParent()).getChildren().removeAll(this);
+			}
 		});
 
 		render();

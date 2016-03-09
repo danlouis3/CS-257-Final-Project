@@ -181,7 +181,7 @@ public class LevelModel {
 			return false;
 
 		return 	getTile(k+o) != null &&
-				getTile(k+o - this.width) == null;
+				isEmpty(getTile(k+o - this.width));
 	}
 
 	private void checkWin() {
