@@ -87,7 +87,7 @@ public class LevelModel {
 			dx = 1;
 		
 		move(k, k + (-1 * dx));
-		drop(k + (-1 * dx));
+		drop(k + (-1 * dropx));
 	}
 
 	public void moveRight() {
