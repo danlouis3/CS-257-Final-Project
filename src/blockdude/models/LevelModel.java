@@ -87,7 +87,7 @@ public class LevelModel {
 			dx = 1;
 		
 		move(k, k + (-1 * dx));
-		drop();
+		drop(k + (-1 * dx));
 	}
 
 	public void moveRight() {
@@ -101,7 +101,7 @@ public class LevelModel {
 		}
 		
 		move(k, k + (1 * dx));
-		drop();
+		drop(k + (1 * dx));
 	}
 
 	public void moveUp() {
@@ -130,6 +130,7 @@ public class LevelModel {
 			else {
 				if(isEmpty(getTile(k+o*1))) {
 					this.tileList.set(k+o*1, new BlockTile());
+					drop(k+o*1);
 					player.setHasBlock(false);
 				}
 			}
@@ -138,10 +139,7 @@ public class LevelModel {
 		move(k, k);
 	}
 
-	private void drop() {
-		int k = this.playerIndex;
-		PlayerTile player = (PlayerTile)(getTile(k));
-
+	private void drop(int k) {
 		int dy = 0;
 		while(k + (dy + 1) * this.width < this.tileList.size() &&
 			  isEmpty(getTile(k + (dy + 1) * this.width))) 
