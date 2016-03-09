@@ -13,12 +13,12 @@ import javafx.scene.input.ScrollEvent;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.StackPane;
 import javafx.scene.control.Button;
+import javafx.beans.value.WeakChangeListener;
 
 public class Controller {
 
 	private GameModel model;
 	private StackPane viewHolder;
-	private LevelView levelView;
 
 	public Controller(StackPane vh, GameModel model) {
 		this.viewHolder = vh;
@@ -28,10 +28,12 @@ public class Controller {
 	public void bind(StartMenu menu) {
 		menu.setStartButtonAction( (e) -> {
 			this.model.load(); 
-	        this.levelView = new LevelView(model.getCurrLevel());
-	        this.viewHolder.getChildren().addAll(levelView);
-	        this.levelView.requestFocus();
-	        bind(this.levelView);
+	        LevelView lv = new LevelView(model.getCurrLevel());
+	        this.viewHolder.getChildren().addAll(lv);
+	        lv.requestFocus();
+	        bind(lv);
+
+	        ;
 		});
 			
 		menu.setCodeButtonAction( (e) -> {
@@ -45,6 +47,10 @@ public class Controller {
 				this.model.getCurrLevel().moveLeft();
 			else if(e.getCode() == KeyCode.RIGHT)
 				this.model.getCurrLevel().moveRight();
+			else if(e.getCode() == KeyCode.UP)
+				this.model.getCurrLevel().moveUp();
+			else if(e.getCode() == KeyCode.DOWN)
+				this.model.getCurrLevel().block();
 		});
 	}
 }

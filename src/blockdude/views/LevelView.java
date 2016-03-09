@@ -9,6 +9,9 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+
 import javafx.geometry.Pos;
 import javafx.geometry.Insets;
 
@@ -20,6 +23,7 @@ import java.util.LinkedList;
 
 import blockdude.models.LevelModel;
 import blockdude.components.Tile;
+import blockdude.components.PlayerTile;
 import blockdude.views.GameMenu;
 
 public class LevelView extends StackPane {
@@ -27,6 +31,7 @@ public class LevelView extends StackPane {
 	private LevelModel levelModel;
 	private ScrollPane levelScroll;
 	private Pane canvas;
+	private BooleanProperty levelOver;
 
 	public LevelView(LevelModel lm) {
 		this.levelModel = lm;
@@ -41,7 +46,8 @@ public class LevelView extends StackPane {
 		this.levelScroll.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
 		this.getChildren().addAll(this.levelScroll);
 
-		render();
+		this.levelOver = new SimpleBooleanProperty(false);
+		levelOver.bind(lm.getHasWonProperty());
 
 		this.levelScroll.addEventFilter(MouseEvent.MOUSE_PRESSED, (e) -> {
 			e.consume();
@@ -51,14 +57,19 @@ public class LevelView extends StackPane {
 			e.consume();
 		});
 
-		lm.addListener( (e) -> render() );
-		lm.addTileChangeListener( (e) -> render() );
+		lm.addTileChangeListener( (e) -> {
+			render();
+			if(true == levelOver.get())
+				System.out.println("WON");
+		});
+
+		render();
 	}
 
 
 	public void render() {
-		int canvasHeight = this.levelModel.getHeight()*Tile.TILE_SIZE;
-		int canvasWidth = this.levelModel.getWidth()*Tile.TILE_SIZE;
+		double canvasHeight = this.levelModel.getHeight()*Tile.TILE_SIZE;
+		double canvasWidth = this.levelModel.getWidth()*Tile.TILE_SIZE;
 		this.canvas.setPrefSize(canvasWidth, canvasHeight);
 
 		List<Node> tiles = new LinkedList<Node>();
@@ -70,6 +81,12 @@ public class LevelView extends StackPane {
 					int y = i;
 
 					tiles.add(this.levelModel.getTile(i,j).render(x,y));
+
+					if(this.levelModel.getTile(i,j) instanceof PlayerTile) {
+						double scrollPos = (x-6)*1/(double)(this.levelModel.getWidth()-12);
+						if(x>=6)
+							this.levelScroll.setHvalue(scrollPos);
+					}
 				}
 			}
 		}

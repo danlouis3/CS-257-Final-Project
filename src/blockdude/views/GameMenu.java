@@ -26,11 +26,11 @@ public class GameMenu extends BorderPane {
 		buttonBox.setSpacing(15);
 		buttonBox.setAlignment(Pos.CENTER);
 		buttonBox.getChildren().addAll(resetButton, exitButton, levelName);
-		this.setAlignment(buttonBox, Pos.CENTER);
+		BorderPane.setAlignment(buttonBox, Pos.CENTER);
 
 		Button menuButton = new Button("Menu");
-		this.setAlignment(menuButton, Pos.TOP_RIGHT);
-		this.setMargin(menuButton, new Insets(10, 10, 0, 0));
+		BorderPane.setAlignment(menuButton, Pos.TOP_RIGHT);
+		BorderPane.setMargin(menuButton, new Insets(10, 10, 0, 0));
 		
 		this.setStyle("-fx-background-color : white");
 		this.setPadding(new Insets(10,10,20,10));
