@@ -46,6 +46,12 @@ public class LevelView extends StackPane {
 		this.canvas = new Pane();
 		this.canvas.setStyle("-fx-background-color: #5DE8FF");
 
+		double buttonWidth = 150;
+		this.exitButton1.setMinWidth(buttonWidth);
+		this.exitButton2.setMinWidth(buttonWidth);
+		this.resetButton.setMinWidth(buttonWidth);
+		this.nextButton.setMinWidth(buttonWidth);
+
 		this.levelScroll = new ScrollPane();
 		this.levelScroll.setPrefViewportWidth(Tile.TILE_SIZE*12);
 		this.levelScroll.setPrefViewportHeight(Tile.TILE_SIZE*8);
@@ -61,7 +67,6 @@ public class LevelView extends StackPane {
 
 		VBox menu = new VBox();
 		Label levelName = new Label(lm.getName());	
-		levelName.setFont(new Font("Arial", 25));	;
 
 		menu.getChildren().addAll(levelName, resetButton, exitButton1);
 		menu.setSpacing(15);
@@ -120,8 +125,6 @@ public class LevelView extends StackPane {
 
 		menuButton.setOnAction( e -> {
 			this.menuVisible.set(true);
-			endMenu.setManaged(true);
-			endMenu.setVisible(true);
 		});
 
 	}

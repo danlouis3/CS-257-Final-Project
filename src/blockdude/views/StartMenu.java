@@ -22,18 +22,20 @@ public class StartMenu extends BorderPane {
 
 	public StartMenu() {
 		this.startButton = new Button("Start");
+		this.startButton.setMinWidth(200);
 		this.codeButton = new Button("Code");
+		this.codeButton.setMinWidth(200);
 		VBox buttonBox = new VBox();
 		buttonBox.getChildren().addAll(this.startButton, this.codeButton);
 		buttonBox.setAlignment(Pos.CENTER);
-		buttonBox.setSpacing(10);
+		buttonBox.setSpacing(18);
 
 		this.setCenter(buttonBox);
 
 		Label text = new Label("Block Dude!");
 		BorderPane.setAlignment(text, Pos.TOP_CENTER);
 		this.setTop(text);
-		this.setMargin(text, new Insets(30,0,0,0));
+		this.setMargin(text, new Insets(40,0,0,0));
 
 		this.getStyleClass().add("start-menu");
 		this.getStyleClass().add("menu");

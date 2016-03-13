@@ -91,7 +91,7 @@ public class LevelModel {
 		player.setOrientation(-1);
 
 		int dx = 0;
-		if(leftIsValid(k)) 
+		if(leftIsValid()) 
 			dx = 1;
 		
 		move(k, k + (-1 * dx));
@@ -104,7 +104,7 @@ public class LevelModel {
 		player.setOrientation(1);
 
 		int dx = 0;
-		if(rightIsValid(k)) {
+		if(rightIsValid()) {
 			dx = 1;
 		}
 		
@@ -117,7 +117,7 @@ public class LevelModel {
 		PlayerTile player = (PlayerTile)(getTile(k));
 		int o = player.getOrientation();
 
-		if(upIsValid(k, o)) 
+		if(upIsValid()) 
 			move(k, k + o - this.width);
 		
 	}
@@ -169,26 +169,55 @@ public class LevelModel {
 		checkWin();
 	}
 
-	private boolean leftIsValid(int k) {
+	private boolean leftIsValid() {
+		int k = this.playerIndex;
+		PlayerTile player = (PlayerTile)(getTile(k));
 		if(k%this.width == 0)
 			return false;
 
-		return isEmpty(getTile(k-1));
+		if(player.getHasBlock()) {
+			return isEmpty(getTile(k-1)) &&
+					isEmpty(getTile(k-1-this.width));
+		}
+		else
+			return isEmpty(getTile(k-1));
 	}
 
-	private boolean rightIsValid(int k) {
+	private boolean rightIsValid() {
+		int k = this.playerIndex;
+		PlayerTile player = (PlayerTile)(getTile(k));
 		if((k+1)%this.width == 0)
 			return false;
 
-		return isEmpty(getTile(k+1));
+		if(player.getHasBlock()) {
+			return isEmpty(getTile(k+1)) &&
+					isEmpty(getTile(k+1-this.width));
+		}
+		else
+			return isEmpty(getTile(k+1));
 	}
 
-	private boolean upIsValid(int k, int o) {
-		if(k < this.width)
+	private boolean upIsValid() {
+		int k = this.playerIndex;
+		PlayerTile player = (PlayerTile)(getTile(k));	
+		int o = player.getOrientation();
+
+		if(k < this.width || (player.getHasBlock() && k < 2*this.width))
+			return false;
+		else if(o == 1 && (k+1)%this.width == 0)
+			return false;
+		else if(o == -1 && k%this.width == 0)
+			return false;
+		else if(isEmpty(getTile(k+o)))
 			return false;
 
-		return 	getTile(k+o) != null &&
-				isEmpty(getTile(k+o - this.width));
+		if(player.getHasBlock()) {
+			return 	isEmpty(getTile(k+o - this.width)) &&
+					isEmpty(getTile(k+o - this.width*2));
+		}
+		else {
+			return isEmpty(getTile(k+o - this.width));
+		}
 	}
 
 	private void checkWin() {

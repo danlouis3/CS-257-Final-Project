@@ -1,4 +1,4 @@
-package blockdude.components;
+	package blockdude.components;
 
 import javafx.scene.Node;
 import javafx.scene.Group;
