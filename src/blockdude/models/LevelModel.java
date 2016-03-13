@@ -1,7 +1,7 @@
 package blockdude.models;
 
 import blockdude.components.Tile;
-import blockdude.components.StaticTile;
+import blockdude.components.GroundTile;
 import blockdude.components.BlockTile;
 import blockdude.components.PlayerTile;
 import blockdude.components.DoorTile;
@@ -27,7 +27,7 @@ public class LevelModel {
 	private int playerIndex;
 	private int winPos;
 	private BooleanProperty hasWon;
-	//private int[][] testMatrix;
+	private String code;
 
 	public LevelModel(Tile[][] inputMatrix, String name) {	
 		this.width  = inputMatrix[0].length;
@@ -69,6 +69,14 @@ public class LevelModel {
 		return this.name;
 	}
 
+	public String getCode() {
+		return this.code;
+	}
+
+	public void setCode(String c) {
+		this.code = c;
+	}
+
 	public void addTileChangeListener(ListChangeListener<Tile> listener) {
 		this.tileList.addListener(listener);
 	}
@@ -87,7 +95,7 @@ public class LevelModel {
 			dx = 1;
 		
 		move(k, k + (-1 * dx));
-		drop(k + (-1 * dropx));
+		drop(k + (-1 * dx));
 	}
 
 	public void moveRight() {
@@ -153,11 +161,12 @@ public class LevelModel {
 		Tile tile = getTile(a);
 		if(tile instanceof PlayerTile) {
 			this.playerIndex = b;
-			checkWin();
 		}
 
 		this.tileList.set(a, null);
 		this.tileList.set(b, tile);
+
+		checkWin();
 	}
 
 	private boolean leftIsValid(int k) {

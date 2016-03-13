@@ -30,18 +30,22 @@ public class GameModel {
 	public GameModel(String p)	{
 		this.levelList = new ArrayList<String>(20);
 		this.levelCodes = new HashMap<String,String>();
-		DecimalFormat format = new DecimalFormat();
-		format.setMinimumIntegerDigits(6);
+		
 
 		File test = new File(p);
 		File[] files = (new File(p)).listFiles();
 		for(File f: files) {
 			if(f.getPath().contains("DS_Store"))
 				continue;
-			int hash = f.getPath().hashCode();
-			String code = format.format(hash).substring(0,6);
-			this.levelCodes.put(code, f.getPath());
-			this.levelList.add(f.getPath());
+			try {	
+				BufferedReader reader = new BufferedReader(new FileReader(f.getPath()));
+				String code = reader.readLine();
+				this.levelCodes.put(code, f.getPath());
+				this.levelList.add(f.getPath());
+			}
+			catch(IOException e) {
+				System.out.println(e);
+			}
 		}
 		
 		Collections.sort(this.levelList);
@@ -64,14 +68,20 @@ public class GameModel {
 			return false;
 	}
 
+	public void resetIndex() {
+		this.index = null;
+	}
+
 	public void load() {
 		if(this.index == null)
 			this.index = 0;
 		else
 			this.index++;
 		
-		if(this.index < levelList.size())
+		System.out.println(this.levelList.get(this.index));
+		if(this.index < levelList.size()) {
 			this.currLevel = readLevel(this.levelList.get(this.index));
+		}
 	}
 
 	public void reload() {
@@ -82,10 +92,15 @@ public class GameModel {
 	private static LevelModel readLevel(String path) {
 		try {
 			BufferedReader reader = new BufferedReader(new FileReader(path));
+			String code = reader.readLine();
 			String name = reader.readLine();
-			Tile[][] grid = new Tile[8][0];
+			String[] dim = reader.readLine().split(" ");
+			int y = Integer.valueOf(dim[0]);
+			int x = Integer.valueOf(dim[1]);
 
-			for(int i = 0; i < 8; i++) {
+			Tile[][] grid = new Tile[y][x];
+
+			for(int i = 0; i < y; i++) {
 				String[] row = reader.readLine().split(",");
 				grid[i] = new Tile[row.length];
 				for(int j = 0; j < row.length; j++) {
@@ -93,7 +108,12 @@ public class GameModel {
 						grid[i][row.length-j-1] = null;
 					}
 					else if (Integer.valueOf(row[j]) == 1) {
-						grid[i][row.length-j-1] = new StaticTile();
+						GroundTile tile = new GroundTile();
+						if(i <= 0 || grid[i-1][row.length-j-1] == null 
+								  || !(grid[i-1][row.length-j-1] instanceof GroundTile))
+							tile.setHasGrass(true);
+
+						grid[i][row.length-j-1] = tile; 
 					}
 					else if (Integer.valueOf(row[j]) == 2) {
 						grid[i][row.length-j-1] = new BlockTile();
@@ -107,7 +127,10 @@ public class GameModel {
 				}
 			}
 
-			return new LevelModel(grid, name);
+			LevelModel lm = new LevelModel(grid, name);
+			lm.setCode(code);
+
+			return lm;
 		}
 		catch(IOException e) {
 			System.out.println(e);

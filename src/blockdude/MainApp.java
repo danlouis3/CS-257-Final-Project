@@ -16,32 +16,21 @@ public class MainApp extends Application {
 
 	@Override
 	public void start(Stage primaryStage) {
-        GameModel model = new GameModel("./blockdude/resources/levels");
+    GameModel model = new GameModel("./blockdude/resources/levels");
 
 		StartMenu startMenu = new StartMenu();
-        StackPane viewHolder = new StackPane();
-        viewHolder.setPrefSize(12*Tile.TILE_SIZE, 8*Tile.TILE_SIZE);
-        viewHolder.getChildren().addAll(startMenu);
+    StackPane viewHolder = new StackPane();
+    viewHolder.setPrefSize(12*Tile.TILE_SIZE, 8*Tile.TILE_SIZE);
 
-        Controller controller = new Controller(viewHolder, model);
-        controller.bind(startMenu);
+    Controller controller = new Controller(viewHolder, model);
+    controller.bind(startMenu);
 
-        primaryStage.setTitle("Block Dude");
-        primaryStage.setScene(new Scene(viewHolder));
-        primaryStage.show();
-
-        //LevelModelFactor modeFactory = new LevelModelFactor(this.levelsPath);
-        /*
-        Model Model = new Model();
-		LevelModel levelModel = new LevelModel(null, "Temporary");
-		LevelView levelView = new LevelView(levelModel);
-        GameMenu gameMenu = new GameMenu("Temporary");
-        Controller Controller = new Controller(levelModel, levelView);
-        
-        System.out.println(levelView.getHeight());
-		primaryStage.setScene(new Scene(levelView));
-		primaryStage.show();
-        */
+    viewHolder.getChildren().addAll(startMenu);
+    Scene root = new Scene(viewHolder);
+    root.getStylesheets().add("blockdude/resources/css/style.css");
+    primaryStage.setTitle("Block Dude");
+    primaryStage.setScene(root);
+    primaryStage.show();
 	}
 
 	public static void main(String args[]) {

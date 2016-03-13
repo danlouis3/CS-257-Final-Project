@@ -12,6 +12,7 @@ import javafx.scene.input.SwipeEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.control.Button;
 import javafx.beans.value.WeakChangeListener;
 
@@ -27,13 +28,9 @@ public class Controller {
 
 	public void bind(StartMenu menu) {
 		menu.setStartButtonAction( (e) -> {
-			this.model.load(); 
-	        LevelView lv = new LevelView(model.getCurrLevel());
-	        this.viewHolder.getChildren().addAll(lv);
-	        lv.requestFocus();
-	        bind(lv);
-
-	        ;
+			this.model.resetIndex();
+			this.model.load();
+	        newLevel();
 		});
 			
 		menu.setCodeButtonAction( (e) -> {
@@ -43,6 +40,9 @@ public class Controller {
 
 	public void bind(LevelView lv) {
 		lv.setKeyAction( (e) -> {
+			if(lv.isLevelOver()) 
+				return;
+
 			if(e.getCode() == KeyCode.LEFT)
 				this.model.getCurrLevel().moveLeft();
 			else if(e.getCode() == KeyCode.RIGHT)
@@ -52,5 +52,32 @@ public class Controller {
 			else if(e.getCode() == KeyCode.DOWN)
 				this.model.getCurrLevel().block();
 		});
+
+		lv.setResetAction( e -> {
+			this.model.reload();
+			newLevel();
+	        remove(lv);
+		});
+
+		lv.setExitAction( e -> {
+			remove(lv);
+		});
+
+		lv.setNextAction( e -> {
+			this.model.load();
+			newLevel();
+			remove(lv);
+		});
+	}
+
+	private void newLevel() {
+		LevelView lv = new LevelView(model.getCurrLevel());
+		this.viewHolder.getChildren().addAll(lv);
+		lv.requestFocus();
+		bind(lv);
+	}
+
+	private void remove(LevelView lv) {
+		((Pane) lv.getParent()).getChildren().removeAll(lv);
 	}
 }

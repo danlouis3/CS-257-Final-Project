@@ -1,0 +1,28 @@
+@font-face {
+	font-family: Track;
+	src: url("../fonts/Track.ttf");
+}
+
+.label {
+	-fx-font-family: Track;
+}
+
+.menu {
+	-fx-background-color: #FAFAFA;
+}
+
+.start-menu .label {
+	-fx-font-size: 70px;
+}
+
+.button {
+	-fx-display: inline-block;
+	-fx-border-radius: 2px;
+	-fx-background-color: #BDBDBD;
+	-fx-text-fill: #F5F5F5;
+}
+
+.start-menu .button {
+	-fx-font-size: 40px;
+}
+

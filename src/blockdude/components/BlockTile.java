@@ -12,7 +12,7 @@ public class BlockTile extends Tile {
 	public Node render(int x, int y) {
 		int size = Tile.TILE_SIZE;
 		Rectangle rect = new Rectangle(x*size, y*size, size, size);
-		rect.setFill(Color.MAGENTA);
+		rect.setFill(Color.valueOf("#EFAB77"));
 		return rect;
 	}
 }

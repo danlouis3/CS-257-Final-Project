@@ -11,8 +11,8 @@ public class DoorTile extends Tile {
 
 	public Node render(int x, int y) {
 		int size = Tile.TILE_SIZE;
-		Rectangle rect = new Rectangle(x*size, y*size, size, size);
-		rect.setFill(Color.BROWN);
+		Rectangle rect = new Rectangle(x*size+size/6, y*size, 4*size/6, size);
+		rect.setFill(Color.valueOf("#E85F5C"));
 		return rect;
 	}
 }
