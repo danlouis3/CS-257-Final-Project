@@ -1,27 +1,20 @@
 package blockdude.models;
 
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.BooleanProperty;
-
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.File;
 import java.io.IOException;
-
 import java.util.Collections;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.List;
 import java.util.HashMap;
-
-import java.text.DecimalFormat;
-
 import blockdude.components.*;
 
 public class GameModel {
-	
+			
 	private LevelModel currLevel;
 	private List<String> levelList;
 	private Map<String,String> levelCodes;
@@ -39,8 +32,6 @@ public class GameModel {
 				continue;
 			try {	
 				BufferedReader reader = new BufferedReader(new FileReader(f.getPath()));
-				String code = reader.readLine();
-				this.levelCodes.put(code, f.getPath());
 				this.levelList.add(f.getPath());
 			}
 			catch(IOException e) {
@@ -55,19 +46,6 @@ public class GameModel {
 		return this.currLevel;
 	}
 
-	public boolean isLevelCode(String code) {
-		return levelCodes.containsKey(code);
-	}
-
-	public boolean setLevel(String code) throws Exception {
-		if(this.levelCodes.containsKey(code)) {
-			this.index = this.levelList.indexOf(this.levelCodes.get(code));
-			return true;
-		}
-		else
-			return false;
-	}
-
 	public void resetIndex() {
 		this.index = null;
 	}
@@ -78,7 +56,6 @@ public class GameModel {
 		else
 			this.index++;
 		
-		System.out.println(this.levelList.get(this.index));
 		if(this.index < levelList.size()) {
 			this.currLevel = readLevel(this.levelList.get(this.index));
 		}
@@ -127,10 +104,7 @@ public class GameModel {
 				}
 			}
 
-			LevelModel lm = new LevelModel(grid, name);
-			lm.setCode(code);
-
-			return lm;
+			return new LevelModel(grid, name);
 		}
 		catch(IOException e) {
 			System.out.println(e);

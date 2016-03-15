@@ -9,7 +9,6 @@ import javafx.scene.paint.Paint;
 import java.util.LinkedList;
 
 import blockdude.components.Tile;
-import blockdude.components.Pixel;
 
 //import what you need to render
 public class GroundTile extends Tile {

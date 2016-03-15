@@ -18,15 +18,17 @@ import java.io.IOException;
 public class StartMenu extends BorderPane {
 		
 	private Button startButton;
-	private Button codeButton;
+	//private Button codeButton;
 
 	public StartMenu() {
 		this.startButton = new Button("Start");
 		this.startButton.setMinWidth(200);
-		this.codeButton = new Button("Code");
-		this.codeButton.setMinWidth(200);
+
+		//this.codeButton = new Button("Code");
+		//this.codeButton.setMinWidth(200);
+
 		VBox buttonBox = new VBox();
-		buttonBox.getChildren().addAll(this.startButton, this.codeButton);
+		buttonBox.getChildren().addAll(this.startButton/**, this.codeButton**/);
 		buttonBox.setAlignment(Pos.CENTER);
 		buttonBox.setSpacing(18);
 
@@ -34,8 +36,9 @@ public class StartMenu extends BorderPane {
 
 		Label text = new Label("Block Dude!");
 		BorderPane.setAlignment(text, Pos.TOP_CENTER);
+		BorderPane.setMargin(text, new Insets(40,0,0,0));
+
 		this.setTop(text);
-		this.setMargin(text, new Insets(40,0,0,0));
 
 		this.getStyleClass().add("start-menu");
 		this.getStyleClass().add("menu");
@@ -46,7 +49,9 @@ public class StartMenu extends BorderPane {
 		this.startButton.setOnAction(handler);
 	}
 
+	/**
 	public void setCodeButtonAction(EventHandler<ActionEvent> handler) {
 		this.codeButton.setOnAction(handler);
 	}
+	 **/
 }

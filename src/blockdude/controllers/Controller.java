@@ -30,32 +30,32 @@ public class Controller {
 		menu.setStartButtonAction( (e) -> {
 			this.model.resetIndex();
 			this.model.load();
-	        newLevel();
+	        initLevel();
 		});
 			
-		menu.setCodeButtonAction( (e) -> {
-			System.out.println("Enter Code");
-		});
 	}
 
 	public void bind(LevelView lv) {
 		lv.setKeyAction( (e) -> {
-			if(lv.isLevelOver()) 
-				return;
-
-			if(e.getCode() == KeyCode.LEFT)
-				this.model.getCurrLevel().moveLeft();
-			else if(e.getCode() == KeyCode.RIGHT)
-				this.model.getCurrLevel().moveRight();
-			else if(e.getCode() == KeyCode.UP)
-				this.model.getCurrLevel().moveUp();
-			else if(e.getCode() == KeyCode.DOWN)
-				this.model.getCurrLevel().block();
+			if(!lv.isLevelOver() && !lv.isMenuVisible()) {
+				if(e.getCode() == KeyCode.LEFT) {
+					this.model.getCurrLevel().moveLeft();
+				}
+				else if(e.getCode() == KeyCode.RIGHT) {
+					this.model.getCurrLevel().moveRight();
+				}
+				else if(e.getCode() == KeyCode.UP) {
+					this.model.getCurrLevel().moveUp();
+				}
+				else if(e.getCode() == KeyCode.DOWN) {
+					this.model.getCurrLevel().block();
+				}
+			}
 		});
 
 		lv.setResetAction( e -> {
 			this.model.reload();
-			newLevel();
+			initLevel();
 	        remove(lv);
 		});
 
@@ -65,18 +65,19 @@ public class Controller {
 
 		lv.setNextAction( e -> {
 			this.model.load();
-			newLevel();
+			initLevel();
 			remove(lv);
 		});
 	}
 
-	private void newLevel() {
+	//Creates a view for the current level model and adds it to the view holder
+	private void initLevel() {
 		LevelView lv = new LevelView(model.getCurrLevel());
 		this.viewHolder.getChildren().addAll(lv);
 		lv.requestFocus();
 		bind(lv);
 	}
-
+	
 	private void remove(LevelView lv) {
 		((Pane) lv.getParent()).getChildren().removeAll(lv);
 	}

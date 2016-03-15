@@ -11,24 +11,23 @@ import javafx.scene.layout.VBox;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
-import javafx.scene.text.Font;
-
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
-
 import javafx.geometry.Pos;
 import javafx.geometry.Insets;
-
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-
 import java.util.List;
 import java.util.LinkedList;
-
 import blockdude.models.LevelModel;
 import blockdude.components.Tile;
 import blockdude.components.PlayerTile;
 
+/**
+ * The LevelView class is a view for the levels in BlockDude as well as the in game
+ * menus available when playing the game.
+ * @author Phineas Callahan, Daniel Hamalainen, Sam West
+ */
 public class LevelView extends StackPane {
 
 	private LevelModel levelModel;
@@ -85,10 +84,9 @@ public class LevelView extends StackPane {
 		
 
 		VBox endMenu = new VBox();
-		Label levelCode = new Label("CODE: "+lm.getCode());	
-		levelName.setFont(new Font("Arial", 25));	;
+		Label endLabel = new Label("You Won!");
 
-		endMenu.getChildren().addAll(levelCode, nextButton, exitButton2);
+		endMenu.getChildren().addAll(endLabel, nextButton, exitButton2);
 		endMenu.setSpacing(15);
 		endMenu.setAlignment(Pos.CENTER);
 		endMenu.setMaxWidth(200);
@@ -96,40 +94,41 @@ public class LevelView extends StackPane {
 		endMenu.getStyleClass().add("menu");
 		StackPane.setAlignment(endMenu, Pos.CENTER);
 
-		endMenu.setVisible(false);
-		endMenu.setManaged(false);
+		endMenu.visibleProperty().bind(lm.getHasWonProperty());
+		endMenu.managedProperty().bind(lm.getHasWonProperty());
 
-		this.getChildren().addAll(this.levelScroll, endMenu, menuButton, menu);
-		render();
-
+		//Ensures that mouse events are filtered out and that menus are closed if
+		//they are open.
 		this.levelScroll.addEventFilter(MouseEvent.MOUSE_PRESSED, (e) -> {
 			this.menuVisible.set(false);
+			this.requestFocus();
 			e.consume();
 		});
 
+		//Prevents the user from scrolling themselves
 		this.levelScroll.addEventFilter(ScrollEvent.ANY, (e) -> {
 			e.consume();
 		});
 
+		//Ensures that the view renders whenever there is a change in the level 
+		//model
 		lm.addTileChangeListener( (e) -> {
 			render(); 
 		});
 
-		lm.getHasWonProperty().addListener( 
-			(observable, oldValue, newValue) -> {
-				if(newValue == true) {
-					endMenu.setVisible(true);
-					endMenu.setManaged(true);
-				}
-		});
-
+		//pulls up the in game menu whenever the user clicks the menu button
 		menuButton.setOnAction( e -> {
 			this.menuVisible.set(true);
 		});
 
+		this.getChildren().addAll(levelScroll, endMenu, menuButton, menu);
+		render();
 	}
 
-
+	/**
+	 * The render function renders the Level on the LevelView's canvas pane.
+	 * It will rescroll the view such that the PlayerTile is in focus.
+	 */
 	public void render() {
 		double canvasHeight = this.levelModel.getHeight()*Tile.TILE_SIZE;
 		double canvasWidth = this.levelModel.getWidth()*Tile.TILE_SIZE;
@@ -164,16 +163,12 @@ public class LevelView extends StackPane {
 		this.canvas.getChildren().setAll(tiles);
 	}
 
-	public Pane getCanvas() {
-		return this.canvas;
-	}
-
-	public ScrollPane getScrollPane() {
-		return this.levelScroll;
-	}
-
 	public boolean isLevelOver() {
 		return this.levelOver.get();
+	}
+
+	public boolean isMenuVisible() {
+		return this.menuVisible.get();
 	}
 
 	public void setKeyAction(EventHandler<KeyEvent> handler) {

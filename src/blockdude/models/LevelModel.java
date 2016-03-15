@@ -27,7 +27,6 @@ public class LevelModel {
 	private int playerIndex;
 	private int winPos;
 	private BooleanProperty hasWon;
-	private String code;
 
 	public LevelModel(Tile[][] inputMatrix, String name) {	
 		this.width  = inputMatrix[0].length;
@@ -69,14 +68,6 @@ public class LevelModel {
 		return this.name;
 	}
 
-	public String getCode() {
-		return this.code;
-	}
-
-	public void setCode(String c) {
-		this.code = c;
-	}
-
 	public void addTileChangeListener(ListChangeListener<Tile> listener) {
 		this.tileList.addListener(listener);
 	}
@@ -91,8 +82,9 @@ public class LevelModel {
 		player.setOrientation(-1);
 
 		int dx = 0;
-		if(leftIsValid()) 
+		if(leftIsValid()) {
 			dx = 1;
+		}
 		
 		move(k, k + (-1 * dx));
 		drop(k + (-1 * dx));
@@ -129,6 +121,7 @@ public class LevelModel {
 
 		if(	(o == -1 && k%this.width != 0) || 
 			(o ==  1 && (k+1)%this.width != 0)) {
+			
 			if(!player.getHasBlock()) {
 				if(getTile(k+o*1) instanceof BlockTile) {
 					this.tileList.set(k+o*1, null);
@@ -136,7 +129,7 @@ public class LevelModel {
 				}
 			}
 			else {
-				if(isEmpty(getTile(k+o*1))) {
+				if(isEmpty(k+o*1)) {
 					this.tileList.set(k+o*1, new BlockTile());
 					drop(k+o*1);
 					player.setHasBlock(false);
@@ -150,7 +143,7 @@ public class LevelModel {
 	private void drop(int k) {
 		int dy = 0;
 		while(k + (dy + 1) * this.width < this.tileList.size() &&
-			  isEmpty(getTile(k + (dy + 1) * this.width))) 
+			  isEmpty(k + (dy + 1) * this.width)) 
 			dy++;
 
 		if(dy != 0) 
@@ -172,15 +165,17 @@ public class LevelModel {
 	private boolean leftIsValid() {
 		int k = this.playerIndex;
 		PlayerTile player = (PlayerTile)(getTile(k));
-		if(k%this.width == 0)
+		if(k%this.width == 0) {
 			return false;
+		}
 
 		if(player.getHasBlock()) {
-			return isEmpty(getTile(k-1)) &&
-					isEmpty(getTile(k-1-this.width));
+			return isEmpty(k-1) &&
+					isEmpty(k-1-this.width);
 		}
-		else
-			return isEmpty(getTile(k-1));
+		else {
+			return isEmpty(k-1);
+		}
 	}
 
 	private boolean rightIsValid() {
@@ -190,11 +185,11 @@ public class LevelModel {
 			return false;
 
 		if(player.getHasBlock()) {
-			return isEmpty(getTile(k+1)) &&
-					isEmpty(getTile(k+1-this.width));
+			return isEmpty(k+1) &&
+					isEmpty(k+1-this.width);
 		}
 		else
-			return isEmpty(getTile(k+1));
+			return isEmpty(k+1);
 	}
 
 	private boolean upIsValid() {
@@ -208,15 +203,15 @@ public class LevelModel {
 			return false;
 		else if(o == -1 && k%this.width == 0)
 			return false;
-		else if(isEmpty(getTile(k+o)))
+		else if(isEmpty(k+o))
 			return false;
 
 		if(player.getHasBlock()) {
-			return 	isEmpty(getTile(k+o - this.width)) &&
-					isEmpty(getTile(k+o - this.width*2));
+			return 	isEmpty(k+o - this.width) &&
+					isEmpty(k+o - this.width*2);
 		}
 		else {
-			return isEmpty(getTile(k+o - this.width));
+			return isEmpty(k+o - this.width);
 		}
 	}
 
@@ -225,7 +220,8 @@ public class LevelModel {
 			this.hasWon.set(true);
 	}
 
-	private boolean isEmpty(Tile tile) {
+	private boolean isEmpty(int k) {
+		Tile tile = getTile(k);
 		return tile == null || tile instanceof DoorTile;
 	}
 }

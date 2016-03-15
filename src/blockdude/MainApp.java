@@ -12,46 +12,37 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 
+/**
+ * This Class serves as the entry point for the game.
+ *
+ * @author Phineas Callahan, Daniel Hamalainen, Sam West
+ */
 public class MainApp extends Application {
 
+    /**
+     * The start function initializes the Model, View, and Controller components of BlockDude.
+     */
 	@Override
 	public void start(Stage primaryStage) {
-    GameModel model = new GameModel("./blockdude/resources/levels");
+        //The GameModel will hold the state of the BlockDude game
+        GameModel model = new GameModel("./blockdude/resources/levels");
 
 		StartMenu startMenu = new StartMenu();
-    StackPane viewHolder = new StackPane();
-    viewHolder.setPrefSize(12*Tile.TILE_SIZE, 8*Tile.TILE_SIZE);
+        StackPane viewHolder = new StackPane();
 
-    Controller controller = new Controller(viewHolder, model);
-    controller.bind(startMenu);
+        Controller controller = new Controller(viewHolder, model);
+        controller.bind(startMenu);
 
-    viewHolder.getChildren().addAll(startMenu);
-    Scene root = new Scene(viewHolder);
-    root.getStylesheets().add("blockdude/resources/css/style.css");
-    primaryStage.setTitle("Block Dude");
-    primaryStage.setScene(root);
-    primaryStage.show();
+        viewHolder.setPrefSize(12*Tile.TILE_SIZE, 8*Tile.TILE_SIZE);
+        viewHolder.getChildren().addAll(startMenu);
+        viewHolder.getStylesheets().add("blockdude/resources/css/style.css");
+
+        primaryStage.setTitle("Block Dude");
+        primaryStage.setScene(new Scene(viewHolder));
+        primaryStage.show();
 	}
 
-	public static void main(String args[]) {
+    public static void main(String args[]) {
 		launch(args);
 	}
 }
-
-
-
-/*
-Main Menu -> To Some Level (Either by Code or First) -> End Level Menu -> Next Level
-                       |                                                -> Main Menu
-                       V 
-                       Game Menu -> Main Menu
-                                -> Beggining of this Level
-
-(Main Menu)(End Level Menu)
-          |
-          V
- (Some Level)(Game Menu)
-
-
-
-*/
